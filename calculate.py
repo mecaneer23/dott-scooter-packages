@@ -64,8 +64,7 @@ def main() -> None:
     ride_len = int(input("Minutes per ride: "))
     print(min(dott, key=lambda p: p.get_price(rides, ride_len)), end="\n----\n")  # noqa: T201
     for p in dott:
-        print(p, p.get_price(rides, ride_len))
-    print("----")
+        print(p, p.get_price(rides, ride_len))  # noqa: T201
 
 
 if __name__ == "__main__":
