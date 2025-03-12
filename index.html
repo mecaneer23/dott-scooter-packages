@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js">
+    </script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js">
+    </script>
+</head>
+
+<body>
+
+<script type="text/python">
+from browser import document, html
+import calculate
+
+dott = calculate.get_packages()
+
+rides = int(input("Amount of rides: "))
+ride_len = int(input("Minutes per ride: "))
+document <= html.P(f"Best package for given price: {min(dott, key=lambda p: p.get_price(rides, ride_len))}")
+document <= html.HR()
+document <= html.P("Cost for all packages:")
+for p in dott:
+    document <= html.TR([html.TD(str(p)), html.TD(p.get_price(rides, ride_len))])
+</script>
+
+
+</body>
+
+</html>

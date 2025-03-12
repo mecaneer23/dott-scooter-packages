@@ -49,9 +49,9 @@ class Package:
         return f"{self.package_price}"
 
 
-def main() -> None:
-    """Entry point for calculations"""
-    dott = [
+def get_packages() -> list[Package]:
+    """Return a list of Packages which represent available Dott Packages"""
+    return [
         Package(16, 0, 1),
         Package(18, 0, 0, 2),
         Package(19, 9, 0),
@@ -59,6 +59,11 @@ def main() -> None:
         Package(79, 0, 0, 10),
         Package(0, 6, 1),
     ]
+
+
+def main() -> None:
+    """Entry point for calculations"""
+    dott = get_packages()
 
     rides = int(input("Amount of rides: "))
     ride_len = int(input("Minutes per ride: "))
