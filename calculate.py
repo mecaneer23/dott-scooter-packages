@@ -46,7 +46,7 @@ class Package:
         )
 
     def __str__(self) -> str:
-        return f"{self.package_price}"
+        return f"{self.package_price}".zfill(2)
 
 
 def get_packages() -> list[Package]:
