@@ -38,6 +38,14 @@ class Package:
 
     def get_price(self, amount_of_rides: int, minutes_per_ride: int) -> int:
         """Return the price for a certain amount of `m` length rides"""
+        max_ride_length = 30
+        if minutes_per_ride > max_ride_length:
+            msg = (
+                "You generally shouldn't be riding for longer than 30 minutes,"
+                "otherwise you will incur surcharges."
+            )
+            raise NotImplementedError(msg)
+
         return (
             self.package_price
             * self._get_package_multiplier(amount_of_rides, self.max_rides)
