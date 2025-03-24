@@ -3,6 +3,8 @@
 Calculate the best scooter package given certain factors
 """
 
+from sys import maxsize
+
 
 class Package:
     """Represent a scooter bundle pricing package"""
@@ -13,11 +15,13 @@ class Package:
         unlock_price: int,
         price_per_minute: int,
         max_rides: int = 0,
+        max_ride_length: int = maxsize,
     ) -> None:
         self.package_price = package_price
         self.unlock_price = unlock_price
         self.price_per_minute = price_per_minute
         self.max_rides = max_rides
+        self.max_ride_length = max_ride_length
 
     @staticmethod
     def _get_package_multiplier(amount_of_rides: int, max_rides: int) -> int:
@@ -38,19 +42,14 @@ class Package:
 
     def get_price(self, amount_of_rides: int, minutes_per_ride: int) -> int:
         """Return the price for a certain amount of `m` length rides"""
-        max_ride_length = 30
-        if minutes_per_ride > max_ride_length:
-            msg = (
-                "You generally shouldn't be riding for longer than 30 minutes,"
-                "otherwise you will incur surcharges."
-            )
-            raise NotImplementedError(msg)
+        overtime_fee = max(0, minutes_per_ride - self.max_ride_length)
 
         return (
             self.package_price
             * self._get_package_multiplier(amount_of_rides, self.max_rides)
             + self.unlock_price * amount_of_rides
             + self.price_per_minute * minutes_per_ride * amount_of_rides
+            + overtime_fee * amount_of_rides
         )
 
     def __str__(self) -> str:
@@ -61,10 +60,10 @@ def get_packages() -> list[Package]:
     """Return a list of Packages which represent available Dott Packages"""
     return [
         Package(16, 0, 1),
-        Package(18, 0, 0, 2),
-        Package(19, 9, 0),
-        Package(45, 6, 0),
-        Package(79, 0, 0, 10),
+        Package(18, 0, 0, 2, 30),
+        Package(19, 9, 0, max_ride_length=30),
+        Package(45, 6, 0, max_ride_length=30),
+        Package(79, 0, 0, 10, max_ride_length=30),
         Package(0, 6, 1),
     ]
 
