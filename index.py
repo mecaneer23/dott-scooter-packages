@@ -10,6 +10,7 @@ form = html.FORM()
 rides_row = html.DIV()
 rides_row <= html.LABEL("Amount of rides: ")
 rides_input = html.INPUT()
+rides_input.autofocus = True
 rides_input.type = "number"
 rides_row <= rides_input
 form <= rides_row
@@ -25,7 +26,10 @@ submit = html.INPUT()
 submit.type = "submit"
 form <= submit
 
-document <= form
+form_wrapper = html.DIV()
+form_wrapper.classList.add("form-wrapper")
+form_wrapper <= form
+document <= form_wrapper
 
 wrapper = html.DIV()
 wrapper.id = "wrapper"

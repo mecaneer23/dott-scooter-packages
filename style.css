@@ -1,3 +1,32 @@
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20vh;
+}
+
+form {
+    text-align: center;
+}
+
+form :not(:last-child) {
+    margin-bottom: 2vh;
+}
+
+#wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+table {
+    width: 30vw;
+}
+
 td {
-    padding-right: 2vh;
+    padding: 0 2vh;
+    text-align: center;
+}
+
+hr {
+    width: 30vw;
 }
