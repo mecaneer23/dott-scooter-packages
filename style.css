@@ -1,3 +1,8 @@
+:root {
+    --dott-blue: #00a8e9;
+    --dott-red: #df0a02;
+}
+
 .form-wrapper {
     display: flex;
     justify-content: center;
