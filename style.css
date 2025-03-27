@@ -1,6 +1,26 @@
 :root {
     --dott-blue: #00a8e9;
     --dott-red: #df0a02;
+    --font: white;
+}
+
+body {
+    background-color: var(--dott-blue);
+    color: var(--font);
+    font-family: Poppins, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif;
+    font-weight: bold;
+}
+
+input {
+    background-color: var(--dott-red);
+    border: none;
+    color: var(--font);
+}
+
+hr {
+    background-color: var(--dott-red);
+    border: none;
+    height: 0.2vh;
 }
 
 .form-wrapper {
