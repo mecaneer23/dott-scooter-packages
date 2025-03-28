@@ -3,7 +3,16 @@
 Calculate the best scooter package given certain factors
 """
 
+from collections.abc import Iterable
 from sys import maxsize
+from typing import NamedTuple
+
+
+class Rides(NamedTuple):
+    """Represent an amount of rides with equal length"""
+
+    amount: int
+    minutes: int
 
 
 class Package:
@@ -40,16 +49,25 @@ class Package:
 
         return max(1, -(-amount_of_rides // max_rides))
 
-    def get_price(self, amount_of_rides: int, minutes_per_ride: int) -> int:
+    def get_price(self, rides: Iterable[Rides] | Rides) -> int:
         """Return the price for a certain amount of `m` length rides"""
-        overtime_fee = max(0, minutes_per_ride - self.max_ride_length)
+        total_rides, overtime_fee, total_per_minute = 0, 0, 0
+        if isinstance(rides, Rides):
+            rides = [rides]
+
+        for ride in rides:
+            total_rides += ride.amount
+            overtime_fee += max(0, ride.minutes - self.max_ride_length)
+            total_per_minute += (
+                self.price_per_minute * ride.minutes * ride.amount
+            )
 
         return (
             self.package_price
-            * self._get_package_multiplier(amount_of_rides, self.max_rides)
-            + self.unlock_price * amount_of_rides
-            + self.price_per_minute * minutes_per_ride * amount_of_rides
-            + overtime_fee * amount_of_rides
+            * self._get_package_multiplier(total_rides, self.max_rides)
+            + self.unlock_price * total_rides
+            + total_per_minute
+            + overtime_fee * total_rides
         )
 
     def __str__(self) -> str:
@@ -74,9 +92,10 @@ def main() -> None:
 
     rides = int(input("Amount of rides: "))
     ride_len = int(input("Minutes per ride: "))
-    print(min(dott, key=lambda p: p.get_price(rides, ride_len)), end="\n----\n")  # noqa: T201
-    for p in dott:
-        print(p, p.get_price(rides, ride_len))  # noqa: T201
+    prices = {p: p.get_price(Rides(rides, ride_len)) for p in dott}
+    print(min(prices.values()), end="\n----\n")  # noqa: T201
+    for package, price in prices.items():
+        print(package, price)  # noqa: T201
 
 
 if __name__ == "__main__":
