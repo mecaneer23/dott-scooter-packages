@@ -3,7 +3,7 @@
 # ruff: noqa: B015
 
 from browser import DOMEvent, bind, document, html
-from calculate import get_packages
+from calculate import Rides, get_packages
 
 form = html.FORM()
 
@@ -48,7 +48,7 @@ def on_submit(event: DOMEvent) -> None:
     wrapper.clear()
     wrapper <= html.P(
         f"Best package for given price: "
-        f"{min(dott, key=lambda p: p.get_price(rides, ride_len))}",
+        f"{min(dott, key=lambda p: p.get_price(Rides(rides, ride_len)))}",
     )
     wrapper <= html.HR()
     wrapper <= html.P("Cost for all packages:")
@@ -56,7 +56,7 @@ def on_submit(event: DOMEvent) -> None:
     table <= html.TR([html.TD("Package price"), html.TD("Total cost")])
     for p in dott:
         table <= html.TR(
-            [html.TD(str(p)), html.TD(p.get_price(rides, ride_len))],
+            [html.TD(str(p)), html.TD(p.get_price(Rides(rides, ride_len)))],
         )
     wrapper <= table
     document <= wrapper
