@@ -1,8 +1,9 @@
 """Brython html UI for calculate"""
-# type: ignore[reportOperatorIssue, reportUnusedExpression]
+# pyright: reportOperatorIssue=false, reportUnusedExpression=false
 # ruff: noqa: B015
+# pylint: disable=expression-not-assigned, pointless-statement
 
-from browser import DOMEvent, bind, document, html
+from browser import DOMEvent, document, html
 from calculate import Rides, get_packages
 
 form = html.FORM()
@@ -36,7 +37,6 @@ wrapper.id = "wrapper"
 document <= wrapper
 
 
-@bind(submit, "click")
 def on_submit(event: DOMEvent) -> None:
     """Handle submit button press"""
     event.preventDefault()
@@ -44,7 +44,7 @@ def on_submit(event: DOMEvent) -> None:
     ride_len = int(len_input.value)
     dott = get_packages()
 
-    wrapper = document["wrapper"]
+    wrapper = document["wrapper"]  # pylint: disable=redefined-outer-name
     wrapper.clear()
     wrapper <= html.P(
         f"Best package for given price: "
@@ -60,3 +60,6 @@ def on_submit(event: DOMEvent) -> None:
         )
     wrapper <= table
     document <= wrapper
+
+
+submit.bind("click", on_submit)
