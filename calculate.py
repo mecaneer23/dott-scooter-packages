@@ -90,10 +90,21 @@ def main() -> None:
     """Entry point for calculations"""
     dott = get_packages()
 
-    rides = int(input("Amount of rides: "))
-    ride_len = int(input("Minutes per ride: "))
-    prices = {p: p.get_price(Rides(rides, ride_len)) for p in dott}
-    print(min(prices.values()), end="\n----\n")  # noqa: T201
+    rides_list: list[Rides] = []
+    while True:
+        rides = input("Amount of rides (or just press Enter to stop): ")
+        if not rides:
+            break
+        ride_len = input("Minutes per ride: ")
+
+        try:
+            rides_list.append(Rides(int(rides), int(ride_len)))
+        except ValueError as err:
+            msg = "Invalid input. Please enter valid integers."
+            raise ValueError(msg) from err
+
+    prices = {p: p.get_price(rides_list) for p in dott}
+    print(min(prices, key=prices.get), end="\n----\n")  # type: ignore[reportCallIssue] # noqa: T201
     for package, price in prices.items():
         print(package, price)  # noqa: T201
 
